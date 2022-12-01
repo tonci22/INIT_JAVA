@@ -6,6 +6,7 @@ import com.example.INIT_JAVA.services.CategoryService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,16 +21,19 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping
     public ResponseEntity<List<CategoryResponseDto>> getAllCategories() {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAll());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.add(categoryRequestDto));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable("id") Long id,
                                                               @RequestBody CategoryRequestDto categoryRequestDto) {

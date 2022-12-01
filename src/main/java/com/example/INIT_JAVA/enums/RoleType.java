@@ -1,5 +1,5 @@
 package com.example.INIT_JAVA.enums;
 
 public enum RoleType {
-    ADMIN, USER
+    ROLE_ADMIN, ROLE_USER
 }

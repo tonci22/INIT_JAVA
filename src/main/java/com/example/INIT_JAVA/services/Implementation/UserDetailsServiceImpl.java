@@ -52,7 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         user.setName(userLoginRequestDto.getUsername());
         user.setEnabled(true);
         user.setPassword(BCrypt.hashpw(userLoginRequestDto.getPassword(), BCrypt.gensalt()));
-        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.USER.toString())));
+        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ROLE_USER.toString())));
         userRepository.save(userMapper.mapToDto(user));
 
         return user;
@@ -64,7 +64,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         user.setName("admin");
         user.setEnabled(true);
         user.setPassword(BCrypt.hashpw("admin", BCrypt.gensalt()));
-        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ADMIN.toString())));
+        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ROLE_ADMIN.toString())));
         userRepository.save(userMapper.mapToDto(user));
     }
 
@@ -73,7 +73,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         user.setEnabled(true);
         user.setName("user");
         user.setPassword(BCrypt.hashpw("user", BCrypt.gensalt()));
-        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.USER.toString())));
+        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ROLE_USER.toString())));
         userRepository.save(userMapper.mapToDto(user));
     }
 

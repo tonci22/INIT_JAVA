@@ -37,8 +37,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         if (alreadySetup)
             return;
 
-        createRoleIfNotFound(RoleType.ADMIN.toString());
-        createRoleIfNotFound(RoleType.USER.toString());
+        createRoleIfNotFound(RoleType.ROLE_ADMIN.toString());
+        createRoleIfNotFound(RoleType.ROLE_USER.toString());
 
         userDetailsService.initAdmin();
         userDetailsService.initUser();
