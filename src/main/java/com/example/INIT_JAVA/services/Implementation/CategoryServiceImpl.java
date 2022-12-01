@@ -31,6 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto add(CategoryRequestDto categoryRequestDto) {
 
+        if (categoryRepository.findByNameIn(List.of(categoryRequestDto.getName())).size() != 0)
+            throw new DuplicateEntityException("Category with this name already exists");
+
         Category category = categoryMapper.mapToDto(categoryRequestDto);
         categoryRepository.save(category);
 
