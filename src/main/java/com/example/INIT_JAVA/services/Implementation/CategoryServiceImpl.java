@@ -31,9 +31,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto add(CategoryRequestDto categoryRequestDto) {
 
-        if (categoryRepository.findByNameIn(List.of(categoryRequestDto.getName())).size() != 0)
-            throw new DuplicateEntityException("Category with this name already exists");
-
         Category category = categoryMapper.mapToDto(categoryRequestDto);
         categoryRepository.save(category);
 
@@ -43,9 +40,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto update(Long id, CategoryRequestDto categoryRequestDto) {
         categoryRepository.findById(id).orElseThrow(() -> new RepositoryNotFoundException("Category ID not found"));
-
-        if (categoryRepository.findByNameIn(List.of(categoryRequestDto.getName())).size() != 0)
-            throw new DuplicateEntityException("Category with this name already exists");
 
         Category category = categoryMapper.mapToDto(categoryRequestDto);
         category.setId(id);
