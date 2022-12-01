@@ -1,10 +1,10 @@
 package com.example.INIT_JAVA.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,6 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     private List<User> users = new ArrayList<>();
-
 
     public Role(String name) {
         this.name = name;

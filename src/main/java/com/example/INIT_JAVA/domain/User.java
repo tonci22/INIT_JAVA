@@ -1,10 +1,10 @@
 package com.example.INIT_JAVA.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +20,9 @@ public class User {
     private Long id;
 
     private String name;
+    private String password;
+    private boolean enabled;
+    private boolean tokenExpired;
 
     @ManyToOne
     private Role role;

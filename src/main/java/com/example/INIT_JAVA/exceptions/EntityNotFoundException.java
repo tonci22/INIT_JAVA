@@ -5,17 +5,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class RepositoryNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends RuntimeException {
 
-    public RepositoryNotFoundException() {
+    public EntityNotFoundException() {
         super();
     }
 
-    public RepositoryNotFoundException(String message) {
+    public EntityNotFoundException(String message) {
         super(message);
     }
 
-    public RepositoryNotFoundException(String message, Throwable cause) {
+    public EntityNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 }

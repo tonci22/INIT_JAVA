@@ -3,8 +3,7 @@ package com.example.INIT_JAVA.services.Implementation;
 import com.example.INIT_JAVA.DTOs.request.CategoryRequestDto;
 import com.example.INIT_JAVA.DTOs.response.CategoryResponseDto;
 import com.example.INIT_JAVA.domain.Category;
-import com.example.INIT_JAVA.exceptions.DuplicateEntityException;
-import com.example.INIT_JAVA.exceptions.RepositoryNotFoundException;
+import com.example.INIT_JAVA.exceptions.EntityNotFoundException;
 import com.example.INIT_JAVA.mappers.CategoryMapper;
 import com.example.INIT_JAVA.repositories.CategoryRepository;
 import com.example.INIT_JAVA.services.CategoryService;
@@ -39,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto update(Long id, CategoryRequestDto categoryRequestDto) {
-        categoryRepository.findById(id).orElseThrow(() -> new RepositoryNotFoundException("Category ID not found"));
+        categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category ID not found"));
 
         Category category = categoryMapper.mapToDto(categoryRequestDto);
         category.setId(id);

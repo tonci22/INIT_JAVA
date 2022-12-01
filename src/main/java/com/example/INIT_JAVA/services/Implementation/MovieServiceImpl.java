@@ -6,7 +6,7 @@ import com.example.INIT_JAVA.DTOs.response.CategoryResponseDto;
 import com.example.INIT_JAVA.DTOs.response.MovieResponseDto;
 import com.example.INIT_JAVA.domain.Category;
 import com.example.INIT_JAVA.domain.Movie;
-import com.example.INIT_JAVA.exceptions.RepositoryNotFoundException;
+import com.example.INIT_JAVA.exceptions.EntityNotFoundException;
 import com.example.INIT_JAVA.mappers.CategoryMapper;
 import com.example.INIT_JAVA.mappers.MovieMapper;
 import com.example.INIT_JAVA.repositories.MovieRepository;
@@ -68,21 +68,20 @@ public class MovieServiceImpl implements MovieService {
         existingCategories = categoryService.findByCategoryNames(categoryNames);
 
         if (existingCategories.size() < categoryRequestDtos.size())
-            throw new RepositoryNotFoundException("Category does not exist");
+            throw new EntityNotFoundException("Category does not exist");
 
         return existingCategories;
     }
 
     @Override
     public MovieResponseDto update(Long id, MovieRequestDto movieRequestDto) {
-        movieRepository.findById(id).orElseThrow(() -> new RepositoryNotFoundException("Movie ID not found"));
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie ID not found"));
+
+        movie.setName(movieRequestDto.getName());
 
         List<Category> allExistingCategories = categoryMapper.
                 mapToDtoList(findAllExistingCategories(movieRequestDto.getCategories()));
 
-        Movie movie = new Movie();
-        movie.setName(movieRequestDto.getName());
-        movie.setId(id);
         movie.setCategories(allExistingCategories);
 
         movieRepository.save(movie);
@@ -93,7 +92,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void deleteById(Long id) {
-        movieRepository.findById(id).orElseThrow(() -> new RepositoryNotFoundException("Movie Id not found"));
+        movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie Id not found"));
         movieRepository.deleteById(id);
     }
 }

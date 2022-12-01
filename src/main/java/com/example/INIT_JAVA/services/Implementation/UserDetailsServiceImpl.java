@@ -1,0 +1,103 @@
+package com.example.INIT_JAVA.services.Implementation;
+
+
+import com.example.INIT_JAVA.DTOs.request.UserLoginRequestDto;
+import com.example.INIT_JAVA.DTOs.request.UserRequestDto;
+import com.example.INIT_JAVA.domain.Role;
+import com.example.INIT_JAVA.domain.User;
+import com.example.INIT_JAVA.enums.RoleType;
+import com.example.INIT_JAVA.mappers.RoleMapper;
+import com.example.INIT_JAVA.mappers.UserMapper;
+import com.example.INIT_JAVA.repositories.RoleRepository;
+import com.example.INIT_JAVA.repositories.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Service("userDetailsServiceImpl")
+@Transactional
+@AllArgsConstructor
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
+    private final RoleMapper roleMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+
+        User user = userRepository.findByName(name);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username:" + name);
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getName(), user.getPassword(), user.isEnabled(), true, true,
+                true, getAuthorities(List.of(user.getRole())));
+    }
+
+    public UserRequestDto save(UserLoginRequestDto userLoginRequestDto) {
+        UserRequestDto user = new UserRequestDto();
+        user.setName(userLoginRequestDto.getUsername());
+        user.setEnabled(true);
+        user.setPassword(BCrypt.hashpw(userLoginRequestDto.getPassword(), BCrypt.gensalt()));
+        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.USER.toString())));
+        userRepository.save(userMapper.mapToDto(user));
+
+        return user;
+    }
+
+    public void initAdmin() {
+        UserRequestDto user = new UserRequestDto();
+
+        user.setName("admin");
+        user.setEnabled(true);
+        user.setPassword(BCrypt.hashpw("admin", BCrypt.gensalt()));
+        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ADMIN.toString())));
+        userRepository.save(userMapper.mapToDto(user));
+    }
+
+    public void initUser() {
+        UserRequestDto user = new UserRequestDto();
+        user.setEnabled(true);
+        user.setName("user");
+        user.setPassword(BCrypt.hashpw("user", BCrypt.gensalt()));
+        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.USER.toString())));
+        userRepository.save(userMapper.mapToDto(user));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+        return getGrantedAuthorities(getPrivileges(roles));
+    }
+
+    private List<String> getPrivileges(Collection<Role> roles) {
+
+        List<String> privileges = new ArrayList<>();
+
+        for (Role role : roles) {
+            privileges.add(role.getName());
+        }
+        return privileges;
+    }
+
+    public List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
+    }
+}
