@@ -2,7 +2,7 @@
 
 technical task for junior developer 
 
-
+<pre>
 JAVA zadatak
 
 Prerequisites:
@@ -51,3 +51,4 @@ Steps:
       - add search filters (movie name) and pagination
     
 Optional: add unit/integration tests
+</pre>
