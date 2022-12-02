@@ -90,7 +90,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public void initCategory() {
-        if (categoryRepository.findByNameIn(List.of("Comedy")) != null)
+        if (categoryRepository.findByNameIn(List.of("Comedy")).size() != 0)
             return;
 
         Category category = new Category();

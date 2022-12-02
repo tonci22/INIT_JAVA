@@ -13,6 +13,7 @@ import com.example.INIT_JAVA.repositories.MovieRepository;
 import com.example.INIT_JAVA.services.CategoryService;
 import com.example.INIT_JAVA.services.MovieService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -95,9 +96,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieResponseDto> findAllMoviesByName(String movieName) {
+    public List<MovieResponseDto> findAllMoviesByName(String movieName, Pageable pageable) {
 
-        List<Movie> movies = movieRepository.findByNameContains(movieName);
+        List<Movie> movies = movieRepository.findByNameContains(movieName, pageable);
 
         return movieMapper.mapToDto(movies);
     }

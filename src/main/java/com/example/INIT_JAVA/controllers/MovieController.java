@@ -4,6 +4,8 @@ import com.example.INIT_JAVA.DTOs.request.MovieRequestDto;
 import com.example.INIT_JAVA.DTOs.response.MovieResponseDto;
 import com.example.INIT_JAVA.services.MovieService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +30,12 @@ public class MovieController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping("/search")
-    public ResponseEntity<List<MovieResponseDto>> getAllMoviesByName(@RequestParam("movieName") String movieName) {
-        return ResponseEntity.status(HttpStatus.OK).body(movieService.findAllMoviesByName(movieName));
+    public ResponseEntity<List<MovieResponseDto>> getAllMoviesByName(@RequestParam("movieName") String movieName,
+                                                                     @RequestParam("page") Integer page,
+                                                                     @RequestParam("size") Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.findAllMoviesByName(movieName, pageable));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")

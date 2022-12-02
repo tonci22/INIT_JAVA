@@ -55,7 +55,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/api/movie/search?movieName=film",
+              "raw": "http://localhost:8080/api/movie/search?movieName=film&page=1&size=2",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -70,6 +70,14 @@
                 {
                   "key": "movieName",
                   "value": "film"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "2"
                 }
               ]
             }
@@ -93,7 +101,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"film\",\r\n    \"categories\": [\r\n        {\r\n            \"name\": \"Comedy\"\r\n        }\r\n    ]\r\n}",
+              "raw": "{\r\n    \"name\": \"christmas\",\r\n    \"categories\": [\r\n        {\r\n            \"name\": \"Comedy\"\r\n        }\r\n    ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
