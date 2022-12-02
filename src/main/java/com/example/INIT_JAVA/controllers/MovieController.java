@@ -27,8 +27,8 @@ public class MovieController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
-    @GetMapping("/{movieName}")
-    public ResponseEntity<List<MovieResponseDto>> getAllMoviesByName(@PathVariable("movieName") String movieName) {
+    @GetMapping("/search")
+    public ResponseEntity<List<MovieResponseDto>> getAllMoviesByName(@RequestParam("movieName") String movieName) {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.findAllMoviesByName(movieName));
     }
 

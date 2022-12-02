@@ -1,7 +1,7 @@
 package com.example.INIT_JAVA.configs;
 
-import com.example.INIT_JAVA.DTOs.request.JwtRequestFilter;
 import com.example.INIT_JAVA.exceptions.JwtAuthenticationEntryPoint;
+import com.example.INIT_JAVA.security.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

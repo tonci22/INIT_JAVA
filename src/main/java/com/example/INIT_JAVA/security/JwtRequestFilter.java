@@ -1,7 +1,6 @@
-package com.example.INIT_JAVA.DTOs.request;
+package com.example.INIT_JAVA.security;
 
 
-import com.example.INIT_JAVA.domain.JwtTokenUtil;
 import com.example.INIT_JAVA.services.Implementation.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,7 +1,6 @@
 package com.example.INIT_JAVA.domain;
 
 import com.example.INIT_JAVA.enums.RoleType;
-import com.example.INIT_JAVA.repositories.CategoryRepository;
 import com.example.INIT_JAVA.repositories.RoleRepository;
 import com.example.INIT_JAVA.repositories.UserRepository;
 import com.example.INIT_JAVA.services.Implementation.UserDetailsServiceImpl;
@@ -18,15 +17,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
-    private final CategoryRepository categoryRepository;
     private final UserDetailsServiceImpl userDetailsService;
 
     public SetupDataLoader(final RoleRepository roleRepository, final UserRepository userRepository,
-                           final CategoryRepository categoryRepository,
                            final UserDetailsServiceImpl userDetailsService) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
-        this.categoryRepository = categoryRepository;
         this.userDetailsService = userDetailsService;
     }
 
@@ -42,10 +38,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         userDetailsService.initAdmin();
         userDetailsService.initUser();
-
-        Category category = new Category();
-        category.setName("Comedy");
-        categoryRepository.save(category);
+        userDetailsService.initCategory();
 
         alreadySetup = true;
     }

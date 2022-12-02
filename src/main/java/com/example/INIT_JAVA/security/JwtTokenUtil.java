@@ -1,4 +1,4 @@
-package com.example.INIT_JAVA.domain;
+package com.example.INIT_JAVA.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

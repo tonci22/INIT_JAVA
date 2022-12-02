@@ -5,7 +5,7 @@ import com.example.INIT_JAVA.DTOs.request.JwtRequest;
 import com.example.INIT_JAVA.DTOs.request.UserLoginRequestDto;
 import com.example.INIT_JAVA.DTOs.request.UserRequestDto;
 import com.example.INIT_JAVA.DTOs.response.JwtResponse;
-import com.example.INIT_JAVA.domain.JwtTokenUtil;
+import com.example.INIT_JAVA.security.JwtTokenUtil;
 import com.example.INIT_JAVA.services.Implementation.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,8 +25,8 @@ public class LoginController {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    public LoginController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                           UserDetailsServiceImpl userDetailsService) {
+    public LoginController(final AuthenticationManager authenticationManager, final JwtTokenUtil jwtTokenUtil,
+                           final UserDetailsServiceImpl userDetailsService) {
 
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
