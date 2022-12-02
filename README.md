@@ -1,6 +1,6 @@
 # INIT_JAVA
 
-technical task for junior developer 
+technical task for junior developer
 
 <pre>
 JAVA zadatak
