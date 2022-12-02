@@ -2,6 +2,8 @@
 
 technical task for junior developer
 
+<pre>Using Postman (INIT.postman_collection.json) user can test different endpoints</pre>
+
 <pre>
 JAVA zadatak
 
