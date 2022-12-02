@@ -61,9 +61,7 @@ public class MovieServiceImpl implements MovieService {
 
         List<String> categoryNames = new ArrayList<>();
 
-        categoryRequestDtos.forEach(categoryRequestDto -> {
-            categoryNames.add(categoryRequestDto.getName());
-        });
+        categoryRequestDtos.forEach(categoryRequestDto -> categoryNames.add(categoryRequestDto.getName()));
 
         existingCategories = categoryService.findByCategoryNames(categoryNames);
 
@@ -94,5 +92,13 @@ public class MovieServiceImpl implements MovieService {
     public void deleteById(Long id) {
         movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie Id not found"));
         movieRepository.deleteById(id);
+    }
+
+    @Override
+    public List<MovieResponseDto> findAllMoviesByName(String movieName) {
+
+        List<Movie> movies = movieRepository.findByNameContains(movieName);
+
+        return movieMapper.mapToDto(movies);
     }
 }

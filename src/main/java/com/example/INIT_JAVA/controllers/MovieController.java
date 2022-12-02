@@ -27,6 +27,12 @@ public class MovieController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    @GetMapping("/{movieName}")
+    public ResponseEntity<List<MovieResponseDto>> getAllMoviesByName(@PathVariable("movieName") String movieName) {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.findAllMoviesByName(movieName));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @PostMapping
     public ResponseEntity<MovieResponseDto> createMovie(@RequestBody MovieRequestDto movieRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(movieService.add(movieRequestDto));

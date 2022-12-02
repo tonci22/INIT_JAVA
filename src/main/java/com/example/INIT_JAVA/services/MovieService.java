@@ -15,4 +15,5 @@ public interface MovieService {
 
     void deleteById(Long id);
 
+    List<MovieResponseDto> findAllMoviesByName(String movieName);
 }
