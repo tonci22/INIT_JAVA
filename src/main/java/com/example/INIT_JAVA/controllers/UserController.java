@@ -5,15 +5,11 @@ import com.example.INIT_JAVA.DTOs.request.JwtRequest;
 import com.example.INIT_JAVA.DTOs.request.UserLoginRequestDto;
 import com.example.INIT_JAVA.DTOs.response.JwtResponse;
 import com.example.INIT_JAVA.DTOs.response.UserResponseDto;
-import com.example.INIT_JAVA.exceptions.EntityNotFoundException;
 import com.example.INIT_JAVA.security.JwtTokenUtil;
 import com.example.INIT_JAVA.services.Implementation.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -47,12 +43,6 @@ public class UserController {
     }
 
     private void authenticate(String username, String password) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new DataIntegrityViolationException("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new EntityNotFoundException("INVALID_CREDENTIALS", e);
-        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }
