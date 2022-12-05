@@ -3,10 +3,13 @@ package com.example.INIT_JAVA.controllers;
 
 import com.example.INIT_JAVA.DTOs.request.JwtRequest;
 import com.example.INIT_JAVA.DTOs.request.UserLoginRequestDto;
-import com.example.INIT_JAVA.DTOs.request.UserRequestDto;
 import com.example.INIT_JAVA.DTOs.response.JwtResponse;
+import com.example.INIT_JAVA.DTOs.response.UserResponseDto;
+import com.example.INIT_JAVA.exceptions.EntityNotFoundException;
 import com.example.INIT_JAVA.security.JwtTokenUtil;
 import com.example.INIT_JAVA.services.Implementation.UserDetailsServiceImpl;
+import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,24 +20,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-public class LoginController {
+@AllArgsConstructor
+public class UserController {
 
     private final AuthenticationManager authenticationManager;
-
     private final JwtTokenUtil jwtTokenUtil;
-
     private final UserDetailsServiceImpl userDetailsService;
 
-    public LoginController(final AuthenticationManager authenticationManager, final JwtTokenUtil jwtTokenUtil,
-                           final UserDetailsServiceImpl userDetailsService) {
-
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.userDetailsService = userDetailsService;
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -47,17 +42,17 @@ public class LoginController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<UserRequestDto> saveUser(@RequestBody UserLoginRequestDto user) throws Exception {
+    public ResponseEntity<UserResponseDto> saveUser(@RequestBody UserLoginRequestDto user) {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
+            throw new DataIntegrityViolationException("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new EntityNotFoundException("INVALID_CREDENTIALS", e);
         }
     }
 }

@@ -7,24 +7,22 @@ import com.example.INIT_JAVA.exceptions.EntityNotFoundException;
 import com.example.INIT_JAVA.mappers.CategoryMapper;
 import com.example.INIT_JAVA.repositories.CategoryRepository;
 import com.example.INIT_JAVA.services.CategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    public CategoryServiceImpl(final CategoryRepository categoryRepository, final CategoryMapper categoryMapper) {
-        this.categoryRepository = categoryRepository;
-        this.categoryMapper = categoryMapper;
-    }
-
     @Override
-    public List<CategoryResponseDto> getAll() {
-        return categoryMapper.mapToDto(categoryRepository.findAll());
+    public Set<CategoryResponseDto> getAll() {
+        return categoryMapper.mapToDto(new HashSet<>(categoryRepository.findAll()));
     }
 
     @Override
@@ -48,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponseDto> findByCategoryNames(List<String> names) {
+    public Set<CategoryResponseDto> findByCategoryNames(Set<String> names) {
         return categoryMapper.mapToDto(categoryRepository.findByNameIn(names));
     }
 }

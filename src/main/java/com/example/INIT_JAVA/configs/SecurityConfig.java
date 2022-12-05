@@ -2,7 +2,7 @@ package com.example.INIT_JAVA.configs;
 
 import com.example.INIT_JAVA.exceptions.JwtAuthenticationEntryPoint;
 import com.example.INIT_JAVA.security.JwtRequestFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,18 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    UserDetailsService userDetailsService;
-    @Autowired
+
+    private UserDetailsService userDetailsService;
     private JwtRequestFilter jwtRequestFilter;
-    @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-    @Autowired
-    private UserDetailsService jwtUserDetailsService;
-    AuthenticationManager authenticationManager;
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -49,7 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        authenticationManager = authenticationManagerBuilder.build();
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf().disable()
                 .authorizeRequests()

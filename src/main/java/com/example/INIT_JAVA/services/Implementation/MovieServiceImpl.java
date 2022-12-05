@@ -12,14 +12,16 @@ import com.example.INIT_JAVA.mappers.MovieMapper;
 import com.example.INIT_JAVA.repositories.MovieRepository;
 import com.example.INIT_JAVA.services.CategoryService;
 import com.example.INIT_JAVA.services.MovieService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
@@ -27,15 +29,6 @@ public class MovieServiceImpl implements MovieService {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
-
-    public MovieServiceImpl(final MovieRepository movieRepository, final MovieMapper movieMapper,
-                            @Qualifier("categoryServiceImpl") final CategoryService categoryService,
-                            final CategoryMapper categoryMapper) {
-        this.movieRepository = movieRepository;
-        this.movieMapper = movieMapper;
-        this.categoryService = categoryService;
-        this.categoryMapper = categoryMapper;
-    }
 
     @Override
     public List<MovieResponseDto> getAll() {
@@ -47,7 +40,7 @@ public class MovieServiceImpl implements MovieService {
 
         Movie movie = movieMapper.mapToDto(movieRequestDto);
 
-        List<Category> allExistingCategories = categoryMapper.
+        Set<Category> allExistingCategories = categoryMapper.
                 mapToDtoList(findAllExistingCategories(movieRequestDto.getCategories()));
 
         movie.setCategories(allExistingCategories);
@@ -57,10 +50,10 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.mapToDto(movie);
     }
 
-    private List<CategoryResponseDto> findAllExistingCategories(List<CategoryRequestDto> categoryRequestDtos) {
-        List<CategoryResponseDto> existingCategories;
+    private Set<CategoryResponseDto> findAllExistingCategories(List<CategoryRequestDto> categoryRequestDtos) {
+        Set<CategoryResponseDto> existingCategories;
 
-        List<String> categoryNames = new ArrayList<>();
+        Set<String> categoryNames = new HashSet<>();
 
         categoryRequestDtos.forEach(categoryRequestDto -> categoryNames.add(categoryRequestDto.getName()));
 
@@ -78,7 +71,7 @@ public class MovieServiceImpl implements MovieService {
 
         movie.setName(movieRequestDto.getName());
 
-        List<Category> allExistingCategories = categoryMapper.
+        Set<Category> allExistingCategories = categoryMapper.
                 mapToDtoList(findAllExistingCategories(movieRequestDto.getCategories()));
 
         movie.setCategories(allExistingCategories);

@@ -2,12 +2,11 @@ package com.example.INIT_JAVA.services.Implementation;
 
 
 import com.example.INIT_JAVA.DTOs.request.UserLoginRequestDto;
-import com.example.INIT_JAVA.DTOs.request.UserRequestDto;
+import com.example.INIT_JAVA.DTOs.response.UserResponseDto;
 import com.example.INIT_JAVA.domain.Category;
 import com.example.INIT_JAVA.domain.Role;
 import com.example.INIT_JAVA.domain.User;
 import com.example.INIT_JAVA.enums.RoleType;
-import com.example.INIT_JAVA.mappers.RoleMapper;
 import com.example.INIT_JAVA.mappers.UserMapper;
 import com.example.INIT_JAVA.repositories.CategoryRepository;
 import com.example.INIT_JAVA.repositories.RoleRepository;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("userDetailsServiceImpl")
@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepository;
     private final UserMapper userMapper;
-    private final RoleMapper roleMapper;
+
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
@@ -50,15 +50,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 true, getAuthorities(List.of(user.getRole())));
     }
 
-    public UserRequestDto save(UserLoginRequestDto userLoginRequestDto) {
-        UserRequestDto user = new UserRequestDto();
+    public UserResponseDto save(UserLoginRequestDto userLoginRequestDto) {
+        User user = new User();
         user.setName(userLoginRequestDto.getUsername());
         user.setEnabled(true);
         user.setPassword(BCrypt.hashpw(userLoginRequestDto.getPassword(), BCrypt.gensalt()));
-        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ROLE_USER.toString())));
-        userRepository.save(userMapper.mapToDto(user));
+        user.setRole(roleRepository.findByName(RoleType.ROLE_USER.toString()));
 
-        return user;
+        return userMapper.mapToDto(userRepository.save(user));
     }
 
     public void initAdmin() {
@@ -66,13 +65,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userRepository.findByName("admin") != null)
             return;
 
-        UserRequestDto user = new UserRequestDto();
+        User user = new User();
 
         user.setName("admin");
         user.setEnabled(true);
         user.setPassword(BCrypt.hashpw("admin", BCrypt.gensalt()));
-        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ROLE_ADMIN.toString())));
-        userRepository.save(userMapper.mapToDto(user));
+        user.setRole(roleRepository.findByName(RoleType.ROLE_ADMIN.toString()));
+        userRepository.save(user);
     }
 
     public void initUser() {
@@ -80,17 +79,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userRepository.findByName("user") != null)
             return;
 
-        UserRequestDto user = new UserRequestDto();
+        User user = new User();
 
         user.setEnabled(true);
         user.setName("user");
         user.setPassword(BCrypt.hashpw("user", BCrypt.gensalt()));
-        user.setRole(roleMapper.mapToDto(roleRepository.findByName(RoleType.ROLE_USER.toString())));
-        userRepository.save(userMapper.mapToDto(user));
+        user.setRole(roleRepository.findByName(RoleType.ROLE_USER.toString()));
+        userRepository.save(user);
     }
 
     public void initCategory() {
-        if (categoryRepository.findByNameIn(List.of("Comedy")).size() != 0)
+        if (categoryRepository.findByNameIn(Set.of("Comedy")).size() != 0)
             return;
 
         Category category = new Category();

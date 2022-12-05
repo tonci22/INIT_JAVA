@@ -5,17 +5,17 @@ import com.example.INIT_JAVA.DTOs.response.CategoryResponseDto;
 import com.example.INIT_JAVA.domain.Category;
 import org.mapstruct.Mapper;
 
-import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    List<CategoryResponseDto> mapToDto(List<Category> categories);
+    Set<CategoryResponseDto> mapToDto(Set<Category> categories);
 
     Category mapToDto(CategoryRequestDto categoryRequestDto);
 
     CategoryResponseDto mapToDto(Category category);
 
-    List<Category> mapToDtoList(List<CategoryResponseDto> categories);
+    Set<Category> mapToDtoList(Set<CategoryResponseDto> categories);
 
 }

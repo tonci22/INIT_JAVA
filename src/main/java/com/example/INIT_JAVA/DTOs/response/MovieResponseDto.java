@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,5 +14,5 @@ public class MovieResponseDto {
     private Long id;
 
     private String name;
-    private List<CategoryResponseDto> categories = new ArrayList<>();
+    private Set<CategoryResponseDto> categories = new HashSet<>();
 }

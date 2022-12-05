@@ -3,27 +3,24 @@ package com.example.INIT_JAVA.controllers;
 import com.example.INIT_JAVA.DTOs.request.CategoryRequestDto;
 import com.example.INIT_JAVA.DTOs.response.CategoryResponseDto;
 import com.example.INIT_JAVA.services.CategoryService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/category")
+@AllArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    public CategoryController(@Qualifier("categoryServiceImpl") final CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDto>> getAllCategories() {
+    public ResponseEntity<Set<CategoryResponseDto>> getAllCategories() {
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAll());
     }
 

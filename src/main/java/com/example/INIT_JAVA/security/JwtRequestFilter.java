@@ -3,6 +3,7 @@ package com.example.INIT_JAVA.security;
 
 import com.example.INIT_JAVA.services.Implementation.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public JwtRequestFilter(UserDetailsServiceImpl jwtUserDetailsService, JwtTokenUtil jwtTokenUtil) {
-        this.jwtUserDetailsService = jwtUserDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

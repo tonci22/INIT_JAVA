@@ -29,12 +29,12 @@ public class EntityTest {
     }
 
     @Test
-    public void checkIfNoDuplicatesCanBeSavedInDatabase(){
+    public void checkIfNoDuplicatesCanBeSavedInDatabase() {
         Category category = new Category();
         category.setName("Comedy");
 
-       Exception exception = Assertions.assertThrows(DataIntegrityViolationException.class,
-               () -> categoryRepository.save(category));
+        Exception exception = Assertions.assertThrows(DataIntegrityViolationException.class,
+                () -> categoryRepository.save(category));
 
         String expectedResult = "could not execute statement";
 

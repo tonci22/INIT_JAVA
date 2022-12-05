@@ -11,7 +11,6 @@ public class UserResponseDto {
 
     private Long id;
     private String name;
-    private String password;
     private boolean enabled;
     private boolean tokenExpired;
     private RoleResponseDto role;

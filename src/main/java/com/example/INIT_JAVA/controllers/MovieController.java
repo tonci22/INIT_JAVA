@@ -3,7 +3,7 @@ package com.example.INIT_JAVA.controllers;
 import com.example.INIT_JAVA.DTOs.request.MovieRequestDto;
 import com.example.INIT_JAVA.DTOs.response.MovieResponseDto;
 import com.example.INIT_JAVA.services.MovieService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,13 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/movie")
+@AllArgsConstructor
 public class MovieController {
 
     private final MovieService movieService;
-
-    public MovieController(@Qualifier("movieServiceImpl") final MovieService movieService) {
-        this.movieService = movieService;
-    }
 
     @GetMapping
     public ResponseEntity<List<MovieResponseDto>> getAllMovies() {

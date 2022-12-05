@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,8 +24,8 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "movies_categories", joinColumns = @JoinColumn(name = "categories_id"),
             inverseJoinColumns = @JoinColumn(name = "movie_id"))
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 
     @ManyToMany(mappedBy = "movies")
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 }
