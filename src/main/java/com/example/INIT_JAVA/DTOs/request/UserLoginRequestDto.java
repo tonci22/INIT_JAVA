@@ -1,14 +1,10 @@
 package com.example.INIT_JAVA.DTOs.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Value
 public class UserLoginRequestDto {
 
-    private String username;
-    private String password;
+    String username;
+    String password;
 }

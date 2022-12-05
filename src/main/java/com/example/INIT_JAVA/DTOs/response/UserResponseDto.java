@@ -1,17 +1,13 @@
 package com.example.INIT_JAVA.DTOs.response;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Value
 public class UserResponseDto {
 
-    private Long id;
-    private String name;
-    private boolean enabled;
-    private boolean tokenExpired;
-    private RoleResponseDto role;
+    Long id;
+    String name;
+    boolean enabled;
+    boolean tokenExpired;
+    RoleResponseDto role;
 }

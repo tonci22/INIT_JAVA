@@ -1,18 +1,13 @@
 package com.example.INIT_JAVA.DTOs.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Value
 public class MovieRequestDto {
 
-    private String name;
-
-    private List<CategoryRequestDto> categories = new ArrayList<>();
+    String name;
+    List<CategoryRequestDto> categories = new ArrayList<>();
 }
