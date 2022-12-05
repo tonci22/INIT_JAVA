@@ -2,8 +2,6 @@
 
 technical task for junior developer
 
-<pre>Using Postman (INIT.postman_collection.json) user can test different endpoints</pre>
-
 <pre>
 JAVA zadatak
 
@@ -54,3 +52,16 @@ Steps:
     
 Optional: add unit/integration tests
 </pre>
+
+# How to use
+
+## 1. Start Database
+`docker-compose up`
+
+## 2. Start Application
+
+run InitJavaApplication
+
+## 3. Postman
+
+import INIT.postman_collection.json into Postman
